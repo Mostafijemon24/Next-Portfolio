@@ -51,7 +51,7 @@ export default async function Portfolio() {
         <div className="container">
           <div className="center" style={{ marginBottom: '2.2rem', maxWidth: '620px' }}>
             <span className="eyebrow">{logos.eyebrow}</span>
-            <h2 className="h-lg">{logos.heading}</h2>
+            <h2 className="h-lg" dangerouslySetInnerHTML={{ __html: logos.heading }} />
             <p className="lead">{logos.lead}</p>
           </div>
           <div className="logo-wall">
@@ -65,7 +65,7 @@ export default async function Portfolio() {
         <div className="container">
           <div className="center" style={{ marginBottom: '2.4rem', maxWidth: '560px' }}>
             <span className="eyebrow">{reviews.eyebrow}</span>
-            <h2 className="h-lg">{reviews.heading}</h2>
+            <h2 className="h-lg" dangerouslySetInnerHTML={{ __html: reviews.heading }} />
           </div>
           <div className="grid grid-3">
             {reviews.items.map((review) => (
@@ -92,7 +92,7 @@ export default async function Portfolio() {
         <div className="container">
           <div className="cta-band reveal">
             <span className="eyebrow">{cta.eyebrow}</span>
-            <h2 className="h-lg">{cta.heading}</h2>
+            <h2 className="h-lg" dangerouslySetInnerHTML={{ __html: cta.heading }} />
             <p className="lead">{cta.lead}</p>
             <div style={{ display: 'flex', gap: '.8rem', justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link href="/contact" className="btn btn--primary btn--lg">

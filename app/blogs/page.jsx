@@ -74,7 +74,7 @@ export default async function Blogs() {
         <div className="container">
           <div className="cta-band reveal">
             <span className="eyebrow">{cta.eyebrow}</span>
-            <h2 className="h-lg">{cta.heading}</h2>
+            <h2 className="h-lg" dangerouslySetInnerHTML={{ __html: cta.heading }} />
             <p className="lead">{cta.lead}</p>
             <div style={{ display: 'flex', gap: '.8rem', justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link href="/contact" className="btn btn--primary btn--lg">

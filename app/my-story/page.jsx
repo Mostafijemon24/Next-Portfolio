@@ -46,7 +46,7 @@ export default async function MyStory() {
         <div className="container">
           <div className="center" style={{ marginBottom: '2.4rem', maxWidth: '600px' }}>
             <span className="eyebrow">{skills.eyebrow}</span>
-            <h2 className="h-lg">{skills.heading}</h2>
+            <h2 className="h-lg" dangerouslySetInnerHTML={{ __html: skills.heading }} />
           </div>
           <div className="grid grid-3">
             {skills.items.map((item) => (
@@ -63,7 +63,7 @@ export default async function MyStory() {
         <div className="container">
           <div className="center" style={{ marginBottom: '2.4rem', maxWidth: '560px' }}>
             <span className="eyebrow">{process.eyebrow}</span>
-            <h2 className="h-lg">{process.heading}</h2>
+            <h2 className="h-lg" dangerouslySetInnerHTML={{ __html: process.heading }} />
           </div>
           <div className="split">
             <div className="reveal">
@@ -102,7 +102,7 @@ export default async function MyStory() {
         <div className="container">
           <div className="cta-band reveal">
             <span className="eyebrow">{cta.eyebrow}</span>
-            <h2 className="h-lg">{cta.heading}</h2>
+            <h2 className="h-lg" dangerouslySetInnerHTML={{ __html: cta.heading }} />
             <p className="lead">{cta.lead}</p>
             <div style={{ display: 'flex', gap: '.8rem', justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link href="/contact" className="btn btn--primary btn--lg">

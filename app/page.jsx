@@ -84,7 +84,7 @@ export default async function Home() {
         <div className="container">
           <div className="center" style={{ marginBottom: '2.6rem', maxWidth: '660px' }}>
             <span className="eyebrow">{services.eyebrow}</span>
-            <h2 className="h-lg">{services.heading}</h2>
+            <h2 className="h-lg" dangerouslySetInnerHTML={{ __html: services.heading }} />
             <p className="lead">{services.lead}</p>
           </div>
           <div className="grid grid-4">
@@ -104,7 +104,7 @@ export default async function Home() {
         <div className="container split">
           <div className="reveal">
             <span className="eyebrow">{why.eyebrow}</span>
-            <h2 className="h-lg">{why.heading}</h2>
+            <h2 className="h-lg" dangerouslySetInnerHTML={{ __html: why.heading }} />
             <p className="lead" style={{ marginBottom: '1.4rem' }}>{why.lead}</p>
             <ul className="checklist">
               {why.checklist.map((item) => (
@@ -122,7 +122,7 @@ export default async function Home() {
         <div className="container">
           <div className="center" style={{ marginBottom: '2.2rem', maxWidth: '620px' }}>
             <span className="eyebrow">{logos.eyebrow}</span>
-            <h2 className="h-lg">{logos.heading}</h2>
+            <h2 className="h-lg" dangerouslySetInnerHTML={{ __html: logos.heading }} />
             <p className="lead">{logos.lead}</p>
           </div>
           <div className="logo-wall">
@@ -137,7 +137,7 @@ export default async function Home() {
         <div className="container">
           <div className="center" style={{ marginBottom: '2.2rem', maxWidth: '560px' }}>
             <span className="eyebrow">{work.eyebrow}</span>
-            <h2 className="h-lg">{work.heading}</h2>
+            <h2 className="h-lg" dangerouslySetInnerHTML={{ __html: work.heading }} />
           </div>
           <div className="work-grid">
             {work.items.map((item) => (
@@ -168,7 +168,7 @@ export default async function Home() {
         <div className="container">
           <div className="center" style={{ marginBottom: '2.4rem', maxWidth: '560px' }}>
             <span className="eyebrow">{reviews.eyebrow}</span>
-            <h2 className="h-lg">{reviews.heading}</h2>
+            <h2 className="h-lg" dangerouslySetInnerHTML={{ __html: reviews.heading }} />
             <p className="lead">{reviews.lead}</p>
           </div>
           <div className="grid grid-3">
@@ -195,7 +195,7 @@ export default async function Home() {
         <div className="container">
           <div className="cta-band reveal">
             <span className="eyebrow">{cta.eyebrow}</span>
-            <h2 className="h-lg">{cta.heading}</h2>
+            <h2 className="h-lg" dangerouslySetInnerHTML={{ __html: cta.heading }} />
             <p className="lead">{cta.lead}</p>
             <div style={{ display: 'flex', gap: '.8rem', justifyContent: 'center', flexWrap: 'wrap' }}>
               {cta.buttons.map((btn) => (

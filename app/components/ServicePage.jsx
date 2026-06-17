@@ -19,7 +19,7 @@ export default function ServicePage({ data }) {
         <div className="container split">
           <div className="reveal">
             <span className="eyebrow">{intro.eyebrow}</span>
-            <h2 className="h-lg">{intro.heading}</h2>
+            <h2 className="h-lg" dangerouslySetInnerHTML={{ __html: intro.heading }} />
             <p className="lead" style={{ marginBottom: '1.3rem' }}>{intro.lead}</p>
             <ul className="checklist">
               {intro.checklist.map((item) => (
@@ -40,7 +40,7 @@ export default function ServicePage({ data }) {
         <div className="container">
           <div className="center" style={{ marginBottom: '2.5rem', maxWidth: '640px' }}>
             <span className="eyebrow">{features.eyebrow}</span>
-            <h2 className="h-lg">{features.heading}</h2>
+            <h2 className="h-lg" dangerouslySetInnerHTML={{ __html: features.heading }} />
           </div>
           <div className="grid grid-3">
             {features.items.map((item) => (
@@ -71,7 +71,7 @@ export default function ServicePage({ data }) {
           </div>
           <div className="reveal">
             <span className="eyebrow">{process.eyebrow}</span>
-            <h2 className="h-lg">{process.heading}</h2>
+            <h2 className="h-lg" dangerouslySetInnerHTML={{ __html: process.heading }} />
             <p className="lead">{process.lead}</p>
           </div>
         </div>
@@ -81,7 +81,7 @@ export default function ServicePage({ data }) {
         <div className="container">
           <div className="center" style={{ marginBottom: '2.5rem', maxWidth: '620px' }}>
             <span className="eyebrow">{faqs.eyebrow}</span>
-            <h2 className="h-lg">{faqs.heading}</h2>
+            <h2 className="h-lg" dangerouslySetInnerHTML={{ __html: faqs.heading }} />
           </div>
           <div className="grid grid-2">
             {faqs.items.map((item) => (
@@ -98,7 +98,7 @@ export default function ServicePage({ data }) {
         <div className="container">
           <div className="cta-band reveal">
             <span className="eyebrow">{cta.eyebrow}</span>
-            <h2 className="h-lg">{cta.heading}</h2>
+            <h2 className="h-lg" dangerouslySetInnerHTML={{ __html: cta.heading }} />
             <p className="lead">{cta.lead}</p>
             <div style={{ display: 'flex', gap: '.8rem', justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link href="/contact" className="btn btn--primary btn--lg">Get a Free Quote</Link>

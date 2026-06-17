@@ -32,7 +32,7 @@ export default async function Contact() {
         <div className="container contact-grid">
           <div className="reveal">
             <span className="eyebrow">{form.eyebrow}</span>
-            <h2 className="h-lg" style={{ marginBottom: '1.4rem' }}>{form.heading}</h2>
+            <h2 className="h-lg" style={{ marginBottom: '1.4rem' }} dangerouslySetInnerHTML={{ __html: form.heading }} />
             <ContactForm
               action={form.endpoint}
               serviceOptions={form.serviceOptions}
@@ -41,7 +41,7 @@ export default async function Contact() {
           </div>
           <div className="reveal">
             <span className="eyebrow">{sidebar.eyebrow}</span>
-            <h2 className="h-lg" style={{ marginBottom: '1.4rem' }}>{sidebar.heading}</h2>
+            <h2 className="h-lg" style={{ marginBottom: '1.4rem' }} dangerouslySetInnerHTML={{ __html: sidebar.heading }} />
             <ul className="info-list">
               <li>
                 <span className="ico">✉</span>

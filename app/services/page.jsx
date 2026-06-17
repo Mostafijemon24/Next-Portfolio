@@ -45,7 +45,7 @@ export default async function Services() {
         <div className="container split">
           <div className="reveal">
             <span className="eyebrow">{intro.eyebrow}</span>
-            <h2 className="h-lg">{intro.heading}</h2>
+            <h2 className="h-lg" dangerouslySetInnerHTML={{ __html: intro.heading }} />
             <p className="lead" style={{ marginBottom: '1.3rem' }}>
               {intro.lead}
             </p>
@@ -77,7 +77,7 @@ export default async function Services() {
         <div className="container">
           <div className="cta-band reveal">
             <span className="eyebrow">{cta.eyebrow}</span>
-            <h2 className="h-lg">{cta.heading}</h2>
+            <h2 className="h-lg" dangerouslySetInnerHTML={{ __html: cta.heading }} />
             <p className="lead">{cta.lead}</p>
             <div style={{ display: 'flex', gap: '.8rem', justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link href="/contact" className="btn btn--primary btn--lg">
