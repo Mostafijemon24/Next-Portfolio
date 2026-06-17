@@ -2,9 +2,14 @@ import './globals.css'
 import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
 import ScrollManager from './components/ScrollManager.jsx'
+import { getSiteSettings } from '@/lib/wordpress'
+import { getSiteUrl } from '@/lib/site-url'
+
+// Always fetch fresh Header/Footer from WordPress (no stale static cache)
+export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  metadataBase: new URL('https://mostafijemon.com'),
+  metadataBase: new URL(getSiteUrl()),
   title: 'Mostafij Emon | Affordable Website Designer, Plugins & SEO',
   description:
     'Affordable WordPress website design, plugin development, and SEO for small businesses. Fast, mobile-friendly sites built to rank and grow by Mostafij Emon.',
@@ -12,7 +17,9 @@ export const metadata = {
   robots: { index: true, follow: true },
 }
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const settings = await getSiteSettings()
+
   return (
     <html lang="en">
       <head>
@@ -27,9 +34,9 @@ export default function RootLayout({ children }) {
         </noscript>
       </head>
       <body>
-        <Header />
+        <Header settings={settings} />
         {children}
-        <Footer />
+        <Footer settings={settings} />
         <ScrollManager />
       </body>
     </html>

@@ -1,0 +1,194 @@
+[
+  {
+    "key": "group_site_settings",
+    "title": "Site Settings",
+    "fields": [
+      {
+        "key": "field_tab_header",
+        "label": "Header",
+        "name": "",
+        "type": "tab",
+        "placement": "top"
+      },
+      {
+        "key": "field_brand_mark",
+        "label": "Brand Mark (logo text)",
+        "name": "brand_mark",
+        "type": "text",
+        "instructions": "Header logo — short text e.g. ME",
+        "default_value": "ME"
+      },
+      {
+        "key": "field_brand_name",
+        "label": "Brand Name",
+        "name": "brand_name",
+        "type": "text",
+        "default_value": "Mostafij Emon"
+      },
+      {
+        "key": "field_brand_tagline",
+        "label": "Brand Tagline",
+        "name": "brand_tagline",
+        "type": "text",
+        "default_value": "Web Developer · SEO"
+      },
+      {
+        "key": "field_nav_items",
+        "label": "Main Navigation",
+        "name": "nav_items",
+        "type": "repeater",
+        "instructions": "Header menu links (Home, My Story, Service, etc.)",
+        "layout": "table",
+        "button_label": "Add Menu Item",
+        "sub_fields": [
+          {
+            "key": "field_nav_label",
+            "label": "Label",
+            "name": "label",
+            "type": "text"
+          },
+          {
+            "key": "field_nav_url",
+            "label": "URL",
+            "name": "url",
+            "type": "text",
+            "instructions": "e.g. / or /contact"
+          },
+          {
+            "key": "field_nav_children",
+            "label": "Sub-menu Items",
+            "name": "children",
+            "type": "repeater",
+            "layout": "table",
+            "button_label": "Add Sub Item",
+            "sub_fields": [
+              {
+                "key": "field_nav_child_label",
+                "label": "Label",
+                "name": "label",
+                "type": "text"
+              },
+              {
+                "key": "field_nav_child_url",
+                "label": "URL",
+                "name": "url",
+                "type": "text"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "field_service_nav_items",
+        "label": "Services Dropdown",
+        "name": "service_nav_items",
+        "type": "repeater",
+        "instructions": "Links under Service menu dropdown in header",
+        "layout": "table",
+        "button_label": "Add Service Link",
+        "sub_fields": [
+          {
+            "key": "field_service_nav_label",
+            "label": "Label",
+            "name": "label",
+            "type": "text"
+          },
+          {
+            "key": "field_service_nav_url",
+            "label": "URL",
+            "name": "url",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "key": "field_nav_cta_text",
+        "label": "Header CTA Button Text",
+        "name": "nav_cta_text",
+        "type": "text",
+        "default_value": "Get a Free Quote"
+      },
+      {
+        "key": "field_nav_cta_link",
+        "label": "Header CTA Button Link",
+        "name": "nav_cta_link",
+        "type": "text",
+        "default_value": "/contact"
+      },
+      {
+        "key": "field_tab_footer",
+        "label": "Footer",
+        "name": "",
+        "type": "tab",
+        "placement": "top"
+      },
+      {
+        "key": "field_footer_description",
+        "label": "Footer Description",
+        "name": "footer_description",
+        "type": "textarea",
+        "rows": 3
+      },
+      {
+        "key": "field_copyright_tagline",
+        "label": "Copyright Tagline",
+        "name": "copyright_tagline",
+        "type": "text"
+      },
+      {
+        "key": "field_tab_contact",
+        "label": "Contact",
+        "name": "",
+        "type": "tab",
+        "placement": "top"
+      },
+      {
+        "key": "field_contact_email",
+        "label": "Contact Email",
+        "name": "contact_email",
+        "type": "email"
+      },
+      {
+        "key": "field_contact_website",
+        "label": "Contact Website",
+        "name": "contact_website",
+        "type": "url"
+      },
+      {
+        "key": "field_response_time",
+        "label": "Response Time",
+        "name": "response_time",
+        "type": "text"
+      },
+      {
+        "key": "field_availability",
+        "label": "Availability",
+        "name": "availability",
+        "type": "text"
+      },
+      {
+        "key": "field_form_endpoint",
+        "label": "Contact Form Endpoint",
+        "name": "form_endpoint",
+        "type": "url",
+        "instructions": "Optional — form submission URL"
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "options_page",
+          "operator": "==",
+          "value": "site-settings"
+        }
+      ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "show_in_rest": 1
+  }
+]

@@ -1,16 +1,39 @@
 import Link from 'next/link'
+import { normalizePath } from '@/lib/wordpress'
 
-export default function Footer() {
+const DEFAULT_FOOTER_DESC =
+  'Affordable WordPress website design, plugin development, SEO, and digital marketing for small businesses that want to be found, trusted, and chosen online.'
+
+export default function Footer({ settings = {} }) {
+  const brandMark = settings.brand_mark || 'ME'
+  const brandName = settings.brand_name || 'Mostafij Emon'
+  const brandTagline = settings.brand_tagline || 'Web Developer · SEO'
+  const footerDescription = settings.footer_description || DEFAULT_FOOTER_DESC
+  const contactEmail = settings.contact_email || 'hello@mostafijemon.com'
+  const contactWebsite = settings.contact_website || 'https://mostafijemon.com'
+  const copyrightTagline = settings.copyright_tagline || 'WordPress · SEO · Affordable web design near you'
+  const responseTime = settings.response_time || 'Usually within 24 hours'
+
+  const websiteHost = (() => {
+    try {
+      return new URL(contactWebsite).hostname.replace(/^www\./, '')
+    } catch {
+      return 'mostafijemon.com'
+    }
+  })()
+
+  const navItems = Array.isArray(settings.nav_items) ? settings.nav_items : []
+
   return (
     <footer className="site-footer">
       <div className="container">
         <div className="foot-grid">
           <div className="foot-brand">
             <Link className="brand" href="/" style={{ color: '#fff' }}>
-              <span className="mark">ME</span>
-              <span style={{ color: '#fff' }}>Mostafij Emon<small>Web Developer · SEO</small></span>
+              <span className="mark">{brandMark}</span>
+              <span style={{ color: '#fff' }}>{brandName}<small>{brandTagline}</small></span>
             </Link>
-            <p>Affordable WordPress website design, plugin development, SEO, and digital marketing for small businesses that want to be found, trusted, and chosen online.</p>
+            <p>{footerDescription}</p>
           </div>
           <div>
             <h4>Services</h4>
@@ -26,25 +49,42 @@ export default function Footer() {
           <div>
             <h4>Company</h4>
             <ul className="foot-links">
-              <li><Link href="/my-story">My Story</Link></li>
-              <li><Link href="/portfolio">Portfolio</Link></li>
-              <li><Link href="/blogs">Blogs</Link></li>
-              <li><Link href="/services">All Services</Link></li>
-              <li><Link href="/contact">Contact</Link></li>
+              {navItems.length > 0
+                ? navItems
+                    .filter((item) => !/service/i.test(item.label))
+                    .map((item, i) => (
+                      <li key={`${item.url}-${i}`}>
+                        <Link href={normalizePath(item.url)}>{item.label}</Link>
+                      </li>
+                    ))
+                : (
+                  <>
+                    <li><Link href="/my-story">My Story</Link></li>
+                    <li><Link href="/portfolio">Portfolio</Link></li>
+                    <li><Link href="/blogs">Blogs</Link></li>
+                    <li><Link href="/services">All Services</Link></li>
+                    <li><Link href="/contact">Contact</Link></li>
+                  </>
+                )}
             </ul>
           </div>
           <div>
             <h4>Get in touch</h4>
             <ul className="foot-links">
-              <li><a href="mailto:hello@mostafijemon.com">hello@mostafijemon.com</a></li>
+              <li><a href={`mailto:${contactEmail}`}>{contactEmail}</a></li>
               <li><Link href="/contact">Book a free consultation</Link></li>
-              <li><a href="https://mostafijemon.com" target="_blank" rel="noopener noreferrer">mostafijemon.com</a></li>
+              <li>
+                <a href={contactWebsite} target="_blank" rel="noopener noreferrer">
+                  {websiteHost}
+                </a>
+              </li>
+              <li>{responseTime}</li>
             </ul>
           </div>
         </div>
         <div className="foot-bottom">
-          <span>© {new Date().getFullYear()} Mostafij Emon. All rights reserved.</span>
-          <span>WordPress · SEO · Affordable web design near you</span>
+          <span>© {new Date().getFullYear()} {brandName}. All rights reserved.</span>
+          <span>{copyrightTagline}</span>
         </div>
       </div>
     </footer>

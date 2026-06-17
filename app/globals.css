@@ -109,8 +109,12 @@ h1, h2, h3, h4 { font-family: var(--display); line-height: 1.12; letter-spacing:
 .btn--primary:hover { transform: translateY(-3px); box-shadow: 0 18px 32px -12px rgba(251,133,0,.8); }
 .btn--ghost { border-color: var(--line); background: transparent; color: var(--ink); }
 .btn--ghost:hover { border-color: var(--navy); transform: translateY(-2px); }
+.hero .btn--ghost,
+.cta-band .btn--ghost,
 .bg-dark .btn--ghost { border-color: var(--navy-line); color: #fff; }
-.bg-dark .btn--ghost:hover { background: rgba(255,255,255,.06); }
+.hero .btn--ghost:hover,
+.cta-band .btn--ghost:hover,
+.bg-dark .btn--ghost:hover { border-color: #fff; background: rgba(255,255,255,.08); }
 .btn--lg { padding: 1rem 1.9rem; font-size: 1.05rem; }
 
 /* ---------- Header / nav ---------- */
@@ -236,6 +240,16 @@ h1, h2, h3, h4 { font-family: var(--display); line-height: 1.12; letter-spacing:
   width: 50px; height: 50px; border-radius: 12px; display: grid; place-items: center;
   background: linear-gradient(135deg, rgba(46,196,182,.15), rgba(76,166,232,.15));
   color: var(--navy); font-size: 1.4rem; margin-bottom: 1rem;
+}
+.card .ico--image {
+  padding: 8px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+.card .ico img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 .card .more { font-family: var(--display); font-weight: 600; font-size: .9rem; color: var(--amber-deep); margin-top: 1rem; display: inline-flex; gap: .35rem; }
 .card .more::after { content: "→"; transition: transform .25s; }

@@ -5,7 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "check:live": "node scripts/check-live.mjs",
+    "ship": "npm run build && vercel --prod --yes",
+    "publish": "node scripts/publish.mjs"
   },
   "dependencies": {
     "next": "^14.2.15",

@@ -1,6 +1,10 @@
+import { getSiteUrl } from '@/lib/site-url'
+
 export default function robots() {
+  const base = getSiteUrl()
+
   return {
     rules: { userAgent: '*', allow: '/' },
-    sitemap: 'https://mostafijemon.com/sitemap.xml',
+    sitemap: `${base}/sitemap.xml`,
   }
 }

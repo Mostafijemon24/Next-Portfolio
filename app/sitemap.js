@@ -1,13 +1,21 @@
+import { SERVICE_PATHS } from '@/lib/service-registry'
+import { getSiteUrl } from '@/lib/site-url'
+
 export default function sitemap() {
-  const base = 'https://mostafijemon.com'
+  const base = getSiteUrl()
   const routes = [
-    '', '/my-story', '/services', '/website-design', '/plugin-development', '/seo',
-    '/gmb-setup', '/social-marketing', '/website-maintenance', '/digital-marketing',
-    '/graphic-logo-design', '/ecommerce-solutions', '/portfolio', '/blogs', '/contact',
+    '',
+    '/my-story',
+    '/services',
+    ...SERVICE_PATHS.map((path) => `/${path}`),
+    '/portfolio',
+    '/blogs',
+    '/contact',
   ]
-  return routes.map((r) => ({
-    url: base + r,
+
+  return routes.map((route) => ({
+    url: `${base}${route}`,
     changeFrequency: 'monthly',
-    priority: r === '' ? 1 : 0.8,
+    priority: route === '' ? 1 : 0.8,
   }))
 }
