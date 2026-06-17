@@ -143,3 +143,32 @@ add_action('rest_api_init', function () {
         return $value;
     });
 });
+
+// 5) On-demand revalidation — কনটেন্ট সেভ করলেই Vercel cache purge
+// Vercel frontend URL + একই secret (Vercel env REVALIDATE_SECRET এর সাথে মিলতে হবে)
+define('ME_REVALIDATE_URL', 'https://mostafijemon.com/api/revalidate');
+define('ME_REVALIDATE_SECRET', '5d3ff4b0e86754f8fcd6f6093fdca24a173084eba04d4a28');
+
+function me_trigger_revalidate() {
+    // অপ্রয়োজনীয় ট্রিগার এড়াতে: autosave/revision বাদ
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    wp_remote_post(ME_REVALIDATE_URL, [
+        'timeout'   => 5,
+        'blocking'  => false, // সেভ স্লো করবে না
+        'headers'   => ['x-revalidate-secret' => ME_REVALIDATE_SECRET],
+        'body'      => ['now' => time()],
+    ]);
+}
+
+// পোস্ট/পেজ/CPT সেভ বা ডিলিট হলে
+add_action('save_post', 'me_trigger_revalidate', 20);
+add_action('deleted_post', 'me_trigger_revalidate', 20);
+// ACF options (Site Settings) সেভ হলে
+add_action('acf/save_post', function ($post_id) {
+    if ($post_id === 'site-settings' || $post_id === 'options') {
+        me_trigger_revalidate();
+    }
+}, 20);

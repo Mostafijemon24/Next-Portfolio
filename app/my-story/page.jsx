@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { getMyStoryPageData } from '@/lib/wordpress'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 export async function generateMetadata() {
   const data = await getMyStoryPageData()

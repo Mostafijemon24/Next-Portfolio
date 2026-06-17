@@ -5,8 +5,8 @@ import ScrollManager from './components/ScrollManager.jsx'
 import { getSiteSettings } from '@/lib/wordpress'
 import { getSiteUrl } from '@/lib/site-url'
 
-// Always fetch fresh Header/Footer from WordPress (no stale static cache)
-export const dynamic = 'force-dynamic'
+// Header/Footer cached at the edge; revalidated instantly via /api/revalidate (WP webhook)
+export const revalidate = 3600
 
 export const metadata = {
   metadataBase: new URL(getSiteUrl()),

@@ -1,7 +1,7 @@
 import ServicePage from '@/app/components/ServicePage'
 import { getServicePageData } from '@/lib/wordpress'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 const SERVICE_PATH = 'digital-marketing'
 

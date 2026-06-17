@@ -2,7 +2,7 @@ import Link from 'next/link'
 import ServiceIcon from '@/app/components/ServiceIcon'
 import { getHomePageData } from '@/lib/wordpress'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 export async function generateMetadata() {
   const { seo } = await getHomePageData()

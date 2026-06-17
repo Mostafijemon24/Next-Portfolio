@@ -4,16 +4,9 @@ const nextConfig = {
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'mostafijemon.com' },
+      { protocol: 'https', hostname: 'mostafijemon.studio' },
       { protocol: 'https', hostname: 'next.mostafijemon.com' },
     ],
-  },
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [{ key: 'Cache-Control', value: 'public, s-maxage=0, stale-while-revalidate=0' }],
-      },
-    ]
   },
 }
 export default nextConfig

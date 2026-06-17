@@ -2,7 +2,7 @@ import Link from 'next/link'
 import ServiceIcon from '@/app/components/ServiceIcon'
 import { getServicesOverviewData } from '@/lib/wordpress'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 export async function generateMetadata() {
   const data = await getServicesOverviewData()
