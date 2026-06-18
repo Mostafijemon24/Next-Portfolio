@@ -15,7 +15,11 @@ export async function generateMetadata() {
 function PostCard({ post }) {
   const body = (
     <>
-      <div className="thumb">{post.thumb}</div>
+      {post.image ? (
+        <img className="thumb-img" src={post.image} alt={post.title} loading="lazy" />
+      ) : (
+        <div className="thumb">{post.thumb}</div>
+      )}
       <div className="body">
         <span className="cat">{post.category}</span>
         <h3>{post.title}</h3>
@@ -55,7 +59,7 @@ export default async function Blogs() {
       </section>
       <section className="section">
         <div className="container">
-          <div className="grid" style={{ gap: '1.4rem' }}>
+          <div className="blog-masonry">
             {posts.map((post) => (
               <PostCard key={post.title} post={post} />
             ))}
