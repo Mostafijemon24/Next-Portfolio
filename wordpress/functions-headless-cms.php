@@ -172,3 +172,15 @@ add_action('acf/save_post', function ($post_id) {
         me_trigger_revalidate();
     }
 }, 20);
+
+// 6) Forminator embed: allow the contact form page to be iframed on the Vercel frontend.
+// WordPress/security plugins send "X-Frame-Options: SAMEORIGIN" which blocks cross-origin
+// framing. For the embed page only, remove it and allow framing from the live site.
+function me_allow_embed_framing() {
+    if (function_exists('is_page') && is_page('embed-contact')) {
+        header_remove('X-Frame-Options');
+        header("Content-Security-Policy: frame-ancestors 'self' https://mostafijemon.com https://www.mostafijemon.com");
+    }
+}
+add_action('template_redirect', 'me_allow_embed_framing', 100);
+add_action('send_headers', 'me_allow_embed_framing', 999);
