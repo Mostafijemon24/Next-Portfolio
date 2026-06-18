@@ -1,47 +1,83 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-function isReady(action) {
-  return Boolean(action && action.startsWith('http') && !action.includes('your-form-id'))
-}
+export default function ContactForm({ endpoint, serviceOptions = [], submitLabel = 'Send message' }) {
+  const [status, setStatus] = useState('idle') // idle | sending | ok | error
+  const [error, setError] = useState('')
 
-export default function ContactForm({ action }) {
-  // Forminator (or any WP form) is embedded from a WordPress page via iframe.
-  // The embed page URL is set in WordPress → Site Settings → Contact Form Endpoint.
-  const [height, setHeight] = useState(760)
+  async function onSubmit(e) {
+    e.preventDefault()
+    const form = e.currentTarget
+    setStatus('sending')
+    setError('')
 
-  useEffect(() => {
-    function onMessage(e) {
-      // Optional auto-resize: the WP embed page can postMessage { type: 'me-form-height', height }
-      const d = e?.data
-      if (d && d.type === 'me-form-height' && typeof d.height === 'number') {
-        setHeight(Math.max(420, Math.round(d.height) + 24))
+    // Simple urlencoded POST → no CORS preflight needed
+    const body = new URLSearchParams(new FormData(form))
+
+    try {
+      const res = await fetch(endpoint, { method: 'POST', body })
+      const json = await res.json().catch(() => ({}))
+      if (res.ok && json.ok) {
+        setStatus('ok')
+        form.reset()
+      } else {
+        setStatus('error')
+        setError(json.message || 'Something went wrong. Please try again.')
       }
+    } catch {
+      setStatus('error')
+      setError('Network error — please try again, or email us directly.')
     }
-    window.addEventListener('message', onMessage)
-    return () => window.removeEventListener('message', onMessage)
-  }, [])
+  }
 
-  if (!isReady(action)) {
+  if (status === 'ok') {
     return (
-      <div className="card" style={{ padding: '1.4rem' }}>
-        <p style={{ color: 'var(--muted)', fontSize: '.95rem', lineHeight: 1.6 }}>
-          Contact form এখনও কানেক্ট করা নেই। WordPress → <b>Site Settings → Contact → Contact Form
-          Endpoint</b>-এ আপনার Forminator embed পেজের সম্পূর্ণ URL দিন — যেমন{' '}
-          <code>https://next.mostafijemon.com/embed-contact/</code>
+      <div className="card" style={{ padding: '1.6rem' }}>
+        <p style={{ color: 'var(--teal)', fontWeight: 600, marginBottom: '.4rem' }}>
+          ✓ ধন্যবাদ! আপনার বার্তা পাঠানো হয়েছে।
+        </p>
+        <p style={{ color: 'var(--muted)', fontSize: '.95rem' }}>
+          শিগগিরই আপনার সাথে যোগাযোগ করা হবে।
         </p>
       </div>
     )
   }
 
   return (
-    <iframe
-      src={action}
-      title="Contact form"
-      className="form-embed"
-      style={{ height }}
-      loading="lazy"
-    />
+    <form id="contact-form" noValidate onSubmit={onSubmit}>
+      <div className="field">
+        <label htmlFor="name">Your name</label>
+        <input id="name" name="name" type="text" placeholder="Jane Doe" required />
+      </div>
+      <div className="field">
+        <label htmlFor="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="jane@business.com" required />
+      </div>
+      <div className="field">
+        <label htmlFor="service">What do you need?</label>
+        <select id="service" name="service">
+          {serviceOptions.map((opt) => (
+            <option key={opt}>{opt}</option>
+          ))}
+        </select>
+      </div>
+      <div className="field">
+        <label htmlFor="message">Project details</label>
+        <textarea
+          id="message"
+          name="message"
+          placeholder="A few sentences about your business, goals, and budget..."
+        />
+      </div>
+      <button className="btn btn--primary btn--lg" type="submit" disabled={status === 'sending'}>
+        {status === 'sending' ? 'Sending…' : submitLabel}
+      </button>
+      {status === 'error' && (
+        <p role="alert" style={{ marginTop: '1rem', color: '#c0392b', fontSize: '.92rem' }}>
+          {error}
+        </p>
+      )}
+    </form>
   )
 }

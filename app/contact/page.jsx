@@ -33,7 +33,11 @@ export default async function Contact() {
           <div className="reveal">
             <span className="eyebrow">{form.eyebrow}</span>
             <h2 className="h-lg" style={{ marginBottom: '1.4rem' }} dangerouslySetInnerHTML={{ __html: form.heading }} />
-            <ContactForm action={form.endpoint} />
+            <ContactForm
+              endpoint={`${process.env.WORDPRESS_API_URL || 'https://next.mostafijemon.com/wp-json'}/me/v1/contact`}
+              serviceOptions={form.serviceOptions}
+              submitLabel={form.submitLabel}
+            />
           </div>
           <div className="reveal">
             <span className="eyebrow">{sidebar.eyebrow}</span>

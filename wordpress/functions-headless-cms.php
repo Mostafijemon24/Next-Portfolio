@@ -136,7 +136,7 @@ add_action('rest_api_init', function () {
 
         if (in_array($origin, $allowed, true)) {
             header("Access-Control-Allow-Origin: $origin");
-            header('Access-Control-Allow-Methods: GET, OPTIONS');
+            header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
             header('Access-Control-Allow-Headers: Content-Type, Authorization');
         }
 
@@ -173,14 +173,46 @@ add_action('acf/save_post', function ($post_id) {
     }
 }, 20);
 
-// 6) Forminator embed: allow the contact form page to be iframed on the Vercel frontend.
-// WordPress/security plugins send "X-Frame-Options: SAMEORIGIN" which blocks cross-origin
-// framing. For the embed page only, remove it and allow framing from the live site.
-function me_allow_embed_framing() {
-    if (function_exists('is_page') && is_page('embed-contact')) {
-        header_remove('X-Frame-Options');
-        header("Content-Security-Policy: frame-ancestors 'self' https://mostafijemon.com https://www.mostafijemon.com");
-    }
-}
-add_action('template_redirect', 'me_allow_embed_framing', 100);
-add_action('send_headers', 'me_allow_embed_framing', 999);
+// 6) Headless contact form → emails the inquiry straight to you (no Formspree, no iframe).
+// React form POSTs (application/x-www-form-urlencoded) to /wp-json/me/v1/contact
+add_action('rest_api_init', function () {
+    register_rest_route('me/v1', '/contact', [
+        'methods'             => 'POST',
+        'permission_callback' => '__return_true',
+        'callback'            => function (WP_REST_Request $req) {
+            $name    = sanitize_text_field($req->get_param('name'));
+            $email   = sanitize_email($req->get_param('email'));
+            $service = sanitize_text_field($req->get_param('service'));
+            $message = sanitize_textarea_field($req->get_param('message'));
+
+            if (empty($name) || empty($email) || !is_email($email)) {
+                return new WP_REST_Response(
+                    ['ok' => false, 'message' => 'Please provide your name and a valid email.'],
+                    422
+                );
+            }
+
+            $to      = get_option('admin_email');
+            $subject = 'New inquiry from ' . $name . ' — mostafijemon.com';
+            $body    = "Name: {$name}\nEmail: {$email}\nService: {$service}\n\nMessage:\n{$message}\n";
+            $headers = ['Reply-To: ' . $name . ' <' . $email . '>'];
+
+            $sent = wp_mail($to, $subject, $body, $headers);
+
+            // Optional: also store in Forminator (set your form id + field slugs, then uncomment)
+            // if (class_exists('Forminator_API')) {
+            //     Forminator_API::add_form_entry(FORM_ID, [
+            //         'name-1' => $name, 'email-1' => $email, 'textarea-1' => $message,
+            //     ]);
+            // }
+
+            if (!$sent) {
+                return new WP_REST_Response(
+                    ['ok' => false, 'message' => 'Could not send email. Please email us directly.'],
+                    500
+                );
+            }
+            return new WP_REST_Response(['ok' => true], 200);
+        },
+    ]);
+});
