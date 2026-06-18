@@ -8,5 +8,11 @@ const nextConfig = {
       { protocol: 'https', hostname: 'next.mostafijemon.com' },
     ],
   },
+  async redirects() {
+    return [
+      // WP service slug "e-commerce-solutions" → actual Next.js route "/ecommerce-solutions"
+      { source: '/e-commerce-solutions', destination: '/ecommerce-solutions', permanent: true },
+    ]
+  },
 }
 export default nextConfig
