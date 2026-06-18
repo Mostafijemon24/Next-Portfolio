@@ -33,11 +33,7 @@ export default async function Contact() {
           <div className="reveal">
             <span className="eyebrow">{form.eyebrow}</span>
             <h2 className="h-lg" style={{ marginBottom: '1.4rem' }} dangerouslySetInnerHTML={{ __html: form.heading }} />
-            <ContactForm
-              action={form.endpoint}
-              serviceOptions={form.serviceOptions}
-              submitLabel={form.submitLabel}
-            />
+            <ContactForm action={form.endpoint} />
           </div>
           <div className="reveal">
             <span className="eyebrow">{sidebar.eyebrow}</span>

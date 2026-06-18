@@ -1,57 +1,47 @@
 'use client'
 
-function isFormReady(action) {
-  return Boolean(action && !action.includes('your-form-id'))
+import { useEffect, useState } from 'react'
+
+function isReady(action) {
+  return Boolean(action && action.startsWith('http') && !action.includes('your-form-id'))
 }
 
-export default function ContactForm({ action, serviceOptions, submitLabel }) {
-  const ready = isFormReady(action)
+export default function ContactForm({ action }) {
+  // Forminator (or any WP form) is embedded from a WordPress page via iframe.
+  // The embed page URL is set in WordPress → Site Settings → Contact Form Endpoint.
+  const [height, setHeight] = useState(760)
+
+  useEffect(() => {
+    function onMessage(e) {
+      // Optional auto-resize: the WP embed page can postMessage { type: 'me-form-height', height }
+      const d = e?.data
+      if (d && d.type === 'me-form-height' && typeof d.height === 'number') {
+        setHeight(Math.max(420, Math.round(d.height) + 24))
+      }
+    }
+    window.addEventListener('message', onMessage)
+    return () => window.removeEventListener('message', onMessage)
+  }, [])
+
+  if (!isReady(action)) {
+    return (
+      <div className="card" style={{ padding: '1.4rem' }}>
+        <p style={{ color: 'var(--muted)', fontSize: '.95rem', lineHeight: 1.6 }}>
+          Contact form এখনও কানেক্ট করা নেই। WordPress → <b>Site Settings → Contact → Contact Form
+          Endpoint</b>-এ আপনার Forminator embed পেজের সম্পূর্ণ URL দিন — যেমন{' '}
+          <code>https://next.mostafijemon.com/embed-contact/</code>
+        </p>
+      </div>
+    )
+  }
 
   return (
-    <form
-      id="contact-form"
-      noValidate
-      action={action}
-      method="POST"
-      onSubmit={(e) => {
-        if (!ready) {
-          e.preventDefault()
-          const note = document.getElementById('form-note')
-          if (note) {
-            note.style.display = 'block'
-            note.textContent =
-              'Contact Form Endpoint সেট করা নেই। WordPress → Site Settings → Contact → Contact Form Endpoint-এ Formspree URL দিন (অথবা Vercel-এ NEXT_PUBLIC_FORM_ENDPOINT env যোগ করুন)।'
-          }
-        }
-      }}
-    >
-      <div className="field">
-        <label htmlFor="name">Your name</label>
-        <input id="name" name="name" type="text" placeholder="Jane Doe" required />
-      </div>
-      <div className="field">
-        <label htmlFor="email">Email</label>
-        <input id="email" name="email" type="email" placeholder="jane@business.com" required />
-      </div>
-      <div className="field">
-        <label htmlFor="service">What do you need?</label>
-        <select id="service" name="service">
-          {serviceOptions.map((opt) => (
-            <option key={opt}>{opt}</option>
-          ))}
-        </select>
-      </div>
-      <div className="field">
-        <label htmlFor="message">Project details</label>
-        <textarea id="message" name="message" placeholder="A few sentences about your business, goals, and budget..." />
-      </div>
-      <button className="btn btn--primary btn--lg" type="submit">{submitLabel}</button>
-      {!ready && (
-        <p role="status" style={{ marginTop: '1rem', color: 'var(--muted)', fontSize: '.92rem' }}>
-          Form এখনও কানেক্ট করা নেই — নিচের ধাপগুলো করুন, তারপর আবার চেষ্টা করুন।
-        </p>
-      )}
-      <p id="form-note" role="status" style={{ display: 'none', marginTop: '1rem', color: 'var(--teal)', fontSize: '.92rem' }} />
-    </form>
+    <iframe
+      src={action}
+      title="Contact form"
+      className="form-embed"
+      style={{ height }}
+      loading="lazy"
+    />
   )
 }

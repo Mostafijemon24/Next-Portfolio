@@ -447,6 +447,12 @@ h1, h2, h3, h4 { font-family: var(--display); line-height: 1.12; letter-spacing:
 .blog-masonry .post .body { padding: 1.2rem 1.4rem 1.4rem; }
 @media (max-width: 600px) { .blog-masonry { columns: 1; } }
 
+/* ---------- Embedded contact form (Forminator via iframe) ---------- */
+.form-embed {
+  width: 100%; min-height: 600px; border: 0; border-radius: var(--radius-lg);
+  background: var(--card); box-shadow: var(--shadow-sm); display: block;
+}
+
 /* ---------- Single blog article ---------- */
 .article { max-width: 760px; margin-inline: auto; }
 .article-hero { width: 100%; height: auto; border-radius: var(--radius-lg); margin-bottom: 1.6rem; display: block; }
