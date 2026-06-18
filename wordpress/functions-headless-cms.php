@@ -173,7 +173,19 @@ add_action('acf/save_post', function ($post_id) {
     }
 }, 20);
 
-// 6) Headless contact form → emails the inquiry straight to you (no Formspree, no iframe).
+// 6a) "Inquiries" inbox — every contact submission is saved here (visible in wp-admin),
+// so leads are never lost even if email delivery fails on the host.
+add_action('init', function () {
+    register_post_type('me_inquiry', [
+        'labels'    => ['name' => 'Inquiries', 'singular_name' => 'Inquiry'],
+        'public'    => false,
+        'show_ui'   => true,
+        'menu_icon' => 'dashicons-email-alt',
+        'supports'  => ['title', 'editor'],
+    ]);
+});
+
+// 6b) Headless contact form endpoint (no Formspree, no iframe).
 // React form POSTs (application/x-www-form-urlencoded) to /wp-json/me/v1/contact
 add_action('rest_api_init', function () {
     register_rest_route('me/v1', '/contact', [
@@ -192,27 +204,28 @@ add_action('rest_api_init', function () {
                 );
             }
 
+            // 1) Always save the inquiry (never lose a lead)
+            wp_insert_post([
+                'post_type'    => 'me_inquiry',
+                'post_status'  => 'publish',
+                'post_title'   => $name . ' — ' . $email,
+                'post_content' => "Service: {$service}\n\n{$message}",
+            ]);
+
+            // 2) Try to email it (won't crash if mail is misconfigured)
+            $sent    = false;
             $to      = get_option('admin_email');
-            $subject = 'New inquiry from ' . $name . ' — mostafijemon.com';
+            $subject = 'New inquiry from ' . $name;
             $body    = "Name: {$name}\nEmail: {$email}\nService: {$service}\n\nMessage:\n{$message}\n";
             $headers = ['Reply-To: ' . $name . ' <' . $email . '>'];
-
-            $sent = wp_mail($to, $subject, $body, $headers);
-
-            // Optional: also store in Forminator (set your form id + field slugs, then uncomment)
-            // if (class_exists('Forminator_API')) {
-            //     Forminator_API::add_form_entry(FORM_ID, [
-            //         'name-1' => $name, 'email-1' => $email, 'textarea-1' => $message,
-            //     ]);
-            // }
-
-            if (!$sent) {
-                return new WP_REST_Response(
-                    ['ok' => false, 'message' => 'Could not send email. Please email us directly.'],
-                    500
-                );
+            try {
+                $sent = wp_mail($to, $subject, $body, $headers);
+            } catch (\Throwable $e) {
+                $sent = false;
             }
-            return new WP_REST_Response(['ok' => true], 200);
+
+            // Success either way — the submission is stored; email is best-effort
+            return new WP_REST_Response(['ok' => true, 'emailed' => (bool) $sent], 200);
         },
     ]);
 });
