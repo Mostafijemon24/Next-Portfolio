@@ -10,17 +10,12 @@ export default function Footer({ settings = {} }) {
   const brandTagline = settings.brand_tagline || 'Web Developer · SEO'
   const footerDescription = settings.footer_description || DEFAULT_FOOTER_DESC
   const contactEmail = settings.contact_email || 'hello@mostafijemon.com'
-  const contactWebsite = settings.contact_website || 'https://mostafijemon.com'
+  const contactPhone = settings.contact_phone || '+8801754574545'
+  const contactWhatsapp = settings.contact_whatsapp || settings.contact_phone || '+8801754574545'
   const copyrightTagline = settings.copyright_tagline || 'WordPress · SEO · Affordable web design near you'
   const responseTime = settings.response_time || 'Usually within 24 hours'
 
-  const websiteHost = (() => {
-    try {
-      return new URL(contactWebsite).hostname.replace(/^www\./, '')
-    } catch {
-      return 'mostafijemon.com'
-    }
-  })()
+  const waDigits = String(contactWhatsapp).replace(/\D/g, '')
 
   const navItems = Array.isArray(settings.nav_items) ? settings.nav_items : []
 
@@ -72,12 +67,13 @@ export default function Footer({ settings = {} }) {
             <h4>Get in touch</h4>
             <ul className="foot-links">
               <li><a href={`mailto:${contactEmail}`}>{contactEmail}</a></li>
-              <li><Link href="/contact">Book a free consultation</Link></li>
+              <li><a href={`tel:${contactPhone.replace(/\s/g, '')}`}>{contactPhone}</a></li>
               <li>
-                <a href={contactWebsite} target="_blank" rel="noopener noreferrer">
-                  {websiteHost}
+                <a href={`https://wa.me/${waDigits}`} target="_blank" rel="noopener noreferrer">
+                  WhatsApp
                 </a>
               </li>
+              <li><Link href="/contact">Book a free consultation</Link></li>
               <li>{responseTime}</li>
             </ul>
           </div>

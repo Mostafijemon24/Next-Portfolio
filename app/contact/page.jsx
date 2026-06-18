@@ -51,11 +51,22 @@ export default async function Contact() {
                 </div>
               </li>
               <li>
-                <span className="ico">🌐</span>
+                <span className="ico">📞</span>
                 <div>
-                  <b>Website</b><br />
-                  <a href={sidebar.website} target="_blank" rel="noopener noreferrer">
-                    {sidebar.websiteHost}
+                  <b>Phone</b><br />
+                  <a href={`tel:${(sidebar.phone || '').replace(/\s/g, '')}`}>{sidebar.phone}</a>
+                </div>
+              </li>
+              <li>
+                <span className="ico">💬</span>
+                <div>
+                  <b>WhatsApp</b><br />
+                  <a
+                    href={`https://wa.me/${String(sidebar.whatsapp || '').replace(/\D/g, '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Chat on WhatsApp
                   </a>
                 </div>
               </li>

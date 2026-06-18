@@ -149,10 +149,18 @@
         "type": "email"
       },
       {
-        "key": "field_contact_website",
-        "label": "Contact Website",
-        "name": "contact_website",
-        "type": "url"
+        "key": "field_contact_phone",
+        "label": "Phone Number",
+        "name": "contact_phone",
+        "type": "text",
+        "instructions": "e.g. +8801754574545 — shown as a clickable call link"
+      },
+      {
+        "key": "field_contact_whatsapp",
+        "label": "WhatsApp Number",
+        "name": "contact_whatsapp",
+        "type": "text",
+        "instructions": "Same or different number — shown as a wa.me chat link"
       },
       {
         "key": "field_response_time",
