@@ -33,12 +33,12 @@ export default function ContactForm({ endpoint, serviceOptions = [], submitLabel
 
   if (status === 'ok') {
     return (
-      <div className="card" style={{ padding: '1.6rem' }}>
+      <div className="card" style={{ padding: '1.6rem', textAlign: 'center' }}>
         <p style={{ color: 'var(--teal)', fontWeight: 600, marginBottom: '.4rem' }}>
-          ✓ ধন্যবাদ! আপনার বার্তা পাঠানো হয়েছে।
+          ✓ Thank you! Your message has been sent.
         </p>
         <p style={{ color: 'var(--muted)', fontSize: '.95rem' }}>
-          শিগগিরই আপনার সাথে যোগাযোগ করা হবে।
+          I&apos;ll get back to you shortly.
         </p>
       </div>
     )
